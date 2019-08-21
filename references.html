@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GIS Assignment One</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+      body,h1 {
+        font-family: "Raleway", Arial, sans-serif;
+        height: 100%;
+      }
+      h1 {
+        letter-spacing: 6px;
+      }
+      .w3-row-padding img {
+        margin-bottom: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- !PAGE CONTENT! -->
+    <!-- <div class="w3-content" style="max-width:1500px"> -->
+
+    <!-- Header -->
+    <header class="w3-panel w3-center" style="padding:50px 16px">
+
+	<div class="w3-padding-32">
+      	  <div class="w3-bar w3-border">
+         	<a href="index.html" class="w3-bar-item w3-button w3-light-grey">Milestone 1</a>
+          	<a href="milestoneTwoIndex.html" class="w3-bar-item w3-button">Milestone 2</a>
+          	<a href="M3LeafletMap1.html" class="w3-bar-item w3-button">Milestone 3</a>
+        </div>
+      </div>
+
+      <h1 class="w3-xlarge">MAPPING APIs</h1>
+      <h1>References</h1>
+
+      <div class="w3-padding-32">
+        <div class="w3-bar w3-border">
+          <a href="index.html" class="w3-bar-item w3-button">Home</a>
+          <a href="GoogleMapAPI.html" class="w3-bar-item w3-button">America's Famous Landmarks</a>
+          <a href="BingGeojsonMap.html" class="w3-bar-item w3-button">America's Crime Rate</a>
+          <a href="GoogleKMLMap.html" class="w3-bar-item w3-button w3-hide-small">America's Route 66</a>
+          <a href="references.html" class="w3-bar-item w3-button w3-light-grey">References</a>
+        </div>
+      </div>
+      <center>
+
+        <div id="map"></div>
+
+        <p>Tryit Editor v3.6. 2018. <i>Tryit Editor v3.6</i>. [ONLINE] Available at: <a href="https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_photo2&stacked=h">https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_photo2&stacked=h.</a> <br> [Accessed 05 November 2018].</p>
+        <p>Google Developers. 2018. <i>Complex Marker Icons  |  Maps JavaScript API  |  Google Developers.</i> [ONLINE] Available at: <a href="https://developers.google.com/maps/documentation/javascript/examples/icon-complex">https://developers.google.com/maps/documentation/javascript/examples/icon-complex.</a> <br> [Accessed 05 November 2018].</p>
+        <p>Country Flag Icon Set for Iphone Map | Custom Icon Design. 2018. <i>Country Flag Icon Set for Iphone Map | Custom Icon Design.</i> [ONLINE] Available at: <a href="http://www.customicondesign.com/free-icons/flag-icon-set/country-flag-icon-set-for-iphone-map/">http://www.customicondesign.com/free-icons/flag-icon-set/country-flag-icon-set-for-iphone-map/.</a> <br> [Accessed 05 November 2018].</p>
+        <p>Google Developers. 2018. <i>Info Windows  |  Maps JavaScript API  |  Google Developers.</i> [ONLINE] Available at: <a href="https://developers.google.com/maps/documentation/javascript/examples/infowindow-simple">https://developers.google.com/maps/documentation/javascript/examples/infowindow-simple.</a> <br> [Accessed 06 November 2018].</p>
+        <p>Google Developers. 2018. <i>Simple Click Events  |  Maps JavaScript API  |  Google Developers.</i> [ONLINE] Available at: <a href="https://developers.google.com/maps/documentation/javascript/examples/event-simple">https://developers.google.com/maps/documentation/javascript/examples/event-simple.</a> <br> [Accessed 06 November 2018].</p>
+        <p>Google Developers. 2018. <i>Start Styling your Map  |  Maps JavaScript API  |  Google Developers.</i> [ONLINE] Available at: <a href="https://developers.google.com/maps/documentation/javascript/styling">https://developers.google.com/maps/documentation/javascript/styling.</a> <br> [Accessed 06 November 2018].</p>
+        <p>Google Developers. 2018. <i>Traffic Layer  |  Maps JavaScript API  |  Google Developers.</i> [ONLINE] Available at: <a href="https://developers.google.com/maps/documentation/javascript/examples/layer-traffic">https://developers.google.com/maps/documentation/javascript/examples/layer-traffic</a> <br>. [Accessed 12 November 2018].</p>
+        <p>Google Developers. 2018. <i>Transit Layer  |  Maps JavaScript API  |  Google Developers.</i> [ONLINE] Available at: <a href="https://developers.google.com/maps/documentation/javascript/examples/layer-transit".>https://developers.google.com/maps/documentation/javascript/examples/layer-transit</a> <br> [Accessed 12 November 2018].</p>
+        <p>Google Developers. 2018. <i>Places Search Box  |  Maps JavaScript API  |  Google Developers.</i> [ONLINE] Available at: <a href="https://developers.google.com/maps/documentation/javascript/examples/places-searchbox".>https://developers.google.com/maps/documentation/javascript/examples/places-searchbox</a> <br> [Accessed 12 November 2018].</p>
+        <p>MapBox. 2018. <i>geojson.io.</i> [ONLINE] Available at: <a href="http://geojson.io".>http://geojson.io</a> <br> [Accessed 19 November 2018].</p>
+        <p>Bing Maps V8 Code Samples. 2018. <i>Bing Maps V8 Code Samples.</i> [ONLINE] Available at: <a href="http://bingmapsv8samples.azurewebsites.net/#Custom%20Navigation%20Bar".>http://bingmapsv8samples.azurewebsites.net/#Custom%20Navigation%20Bar</a> <br> [Accessed 19 November 2018].</p>
+        <p>The Noun Project. 2018. <i>North-american-flag icons | Noun Project.</i> [ONLINE] Available at: <a href="https://thenounproject.com/term/north-american-flag/410132/".>https://thenounproject.com/term/north-american-flag/410132/</a> <br> [Accessed 06 December 2018].</p>
+        <p>Traveller. 2018. <i>USA travel tips: 20 surprising things visitors will discover.</i> [ONLINE] Available at: <a href="http://www.traveller.com.au/usa-travel-tips-20-surprising-things-visitors-will-discover-ggyxww".>http://www.traveller.com.au/usa-travel-tips-20-surprising-things-visitors-will-discover-ggyxww</a> <br> [Accessed 06 December 2018].</p>
+      </center>
+    </header>
+
+    <!-- Footer -->
+    <footer class="w3-container w3-padding-64 w3-light-grey w3-center w3-large">
+      <img src="images/americanFlag.png">
+      <p>Created by Gabrielle Cross</p>
+    </footer>
+
+  </body>
+</html>

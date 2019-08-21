@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GIS Assignment One</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+      body,h1 {
+        font-family: "Raleway", Arial, sans-serif;
+        height: 100%;
+      }
+      h1 {
+        letter-spacing: 6px;
+      }
+      .w3-row-padding img {
+        margin-bottom: 12px;
+      }
+    </style>
+    <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="w3-panel w3-center" style="padding:50px 16px">
+
+	<div class="w3-padding-32">
+      	  <div class="w3-bar w3-border">
+         	<a href="index.html" class="w3-bar-item w3-button">Milestone 1</a>
+          	<a href="milestoneTwoIndex.html" class="w3-bar-item w3-button w3-light-grey">Milestone 2</a>
+          	<a href="M3LeafletMap1.html" class="w3-bar-item w3-button">Milestone 3</a>
+        </div>
+      </div>
+
+      <h1 class="w3-xlarge">MAPPING APIs</h1>
+      <h1>Most Popular Lighthouses In Wales</h1>
+
+      <div class="w3-padding-32">
+        <div class="w3-bar w3-border">
+          <a href="milestoneTwoIndex.html" class="w3-bar-item w3-button">Home</a>
+          <a href="leafletAPI.html" class="w3-bar-item w3-button">Wales' Famous Landmarks</a>
+          <a href="lighthouseLeafletAPI.html" class="w3-bar-item w3-button w3-light-grey">Lighthouse Trail In Wales</a>
+          <a href="milestoneTwoReferences.html" class="w3-bar-item w3-button w3-hide-small">References</a>
+        </div>
+      </div>
+      <center>
+
+      <div id="map" class="map" <div style="background-color:lightblue;width:680px;height:540px;"></div>
+
+      <p>Using the Open Layers API I have created a Bing Map that utilises local data from both a KML and GeoJSON file. The GeoJSON file displays a polygon
+            that outlines the entirety of Wales and a KML file is used to display a route of 10 of the most popular lighthouses in Wales.</p>
+      <p>Each lighthouse is displayed with a custom styled marker on the map and each marker can be clicked by the user. When a lighthouse is selected a pop up
+            window will open displaying the name and address of the chosen lighthouse.</p>
+	</center>
+    </header>
+
+    <!-- Footer -->
+    <footer class="w3-container w3-padding-64 w3-light-grey w3-center w3-large">
+      <img src="images/welshFlag.png" alt="HTML5">
+      <p>Created by Gabrielle Cross</p>
+    </footer>
+  </body>
+</html>
+
+<script type="text/javascript">
+var projection = ol.proj.get('EPSG:3857');
+
+      var raster = new ol.layer.Tile({
+        source: new ol.source.BingMaps({
+          imagerySet: 'Road',
+          key: 'At6NgOUVrZrMOkB_DzLzYAdS7qpp0u4aptYAMq_yRvHHqDiDdQn4FMmL_aS3ruJl'
+        })
+      });
+
+      var wales = new ol.layer.Vector({
+          source: new ol.source.Vector({
+              url: 'walesOutline.json',
+              format: new ol.format.GeoJSON()
+          })
+      });
+
+      var vector = new ol.layer.Vector({
+        source: new ol.source.Vector({
+          url: 'WalesLighthouse.kml',
+          format: new ol.format.KML({
+            extractStyles: true,
+            extractAttributes: true
+          })
+        })
+      });
+
+      var lighthouse = [-3.3243814, 53.356976];
+      var point = new ol.geom.Point(ol.proj.transform(lighthouse, 'EPSG:4326','EPSG:3857'));
+
+      var stroke = new ol.style.Stroke({color: 'black', width: 2});
+      var goldFill = new ol.style.Fill({color: 'gold'});
+
+      var squareStyle = new ol.style.Style({
+          image: new ol.style.RegularShape({
+            fill: goldFill,
+            stroke: stroke,
+            points: 4,
+            radius: 10,
+            angle: Math.PI / 4
+          })
+      });
+
+      var feature = new ol.Feature({
+            geometry: point,
+      });
+      feature.setId('Point Of Ayr Lighthouse. Dee Rd, Talacre, Holywell, CH8 9RS.');
+      feature.setStyle(squareStyle);
+
+      var lighthouseTwo = [-3.8705708, 53.3423425];
+      var point2 = new ol.geom.Point(ol.proj.transform(lighthouseTwo, 'EPSG:4326','EPSG:3857'));
+      var feature2 = new ol.Feature({
+        geometry: point2
+      });
+      feature2.setId('Great Orme Lighthouse. Great Ormes Head, Marine Dr, Llandudno, LL30 2XD.');
+      feature2.setStyle(squareStyle);
+
+      var lighthouseThree = [-4.0428605, 53.3129401];
+      var point3 = new ol.geom.Point(ol.proj.transform(lighthouseThree, 'EPSG:4326','EPSG:3857'));
+      var feature3 = new ol.Feature({
+        geometry: point3
+      });
+      feature3.setId('Trwyn Du Lighthouse. Penmon, LL58 8RP.');
+      feature3.setStyle(squareStyle);
+
+      var lighthouseFour = [-4.2905617, 53.40828];
+      var point4 = new ol.geom.Point(ol.proj.transform(lighthouseFour, 'EPSG:4326','EPSG:3857'));
+      var feature4 = new ol.Feature({
+        geometry: point4
+      });
+      feature4.setId('Point Lynas Lighthouse. Amlwch, LL68 9LT.');
+      feature4.setStyle(squareStyle);
+
+      var lighthouseFive = [-4.7014527, 53.3068789];
+      var point5 = new ol.geom.Point(ol.proj.transform(lighthouseFive, 'EPSG:4326','EPSG:3857'));
+      var feature5 = new ol.Feature({
+        geometry: point5
+      });
+      feature5.setId('South Stack Lighthouse. Holyhead, LL65 1YH.');
+      feature5.setStyle(squareStyle);
+
+      var lighthouseSix = [-5.0692317, 52.0327301];
+      var point6 = new ol.geom.Point(ol.proj.transform(lighthouseSix, 'EPSG:4326','EPSG:3857'));
+      var feature6 = new ol.Feature({
+        geometry: point6
+      });
+      feature6.setId('Strumble Head Lighthouse. Pembrokeshire, Wales, SA64 0JL.');
+      feature6.setStyle(squareStyle);
+
+      var lighthouseSeven = [-5.1748392, 51.6824274];
+      var point7 = new ol.geom.Point(ol.proj.transform(lighthouseSeven, 'EPSG:4326','EPSG:3857'));
+      var feature7 = new ol.Feature({
+        geometry: point7
+      });
+      feature7.setId('St Ann Head Lighthouse. Pembrokeshire Coast Path, Dale, Haverfordwest, SA62 3RS.');
+      feature7.setStyle(squareStyle);
+
+      var lighthouseEight = [-3.9796336, 51.5673304];
+      var point8 = new ol.geom.Point(ol.proj.transform(lighthouseEight, 'EPSG:4326','EPSG:3857'));
+      var feature8 = new ol.Feature({
+        geometry: point8
+      });
+      feature8.setId('Mumbles Lighthouse. The Mumbles, Swansea, SA3 4EN.');
+      feature8.setStyle(squareStyle);
+
+      var lighthouseNine = [-3.6996797, 51.4731126];
+      var point9 = new ol.geom.Point(ol.proj.transform(lighthouseNine, 'EPSG:4326','EPSG:3857'));
+      var feature9 = new ol.Feature({
+        geometry: point9
+      });
+      feature9.setId('Porthcawl Lighthouse. Eastern Promenade, Porthcawl, CF36 3BN.');
+      feature9.setStyle(squareStyle);
+
+      var lighthouseTen = [-3.5533311, 51.4009347];
+      var point10 = new ol.geom.Point(ol.proj.transform(lighthouseTen, 'EPSG:4326','EPSG:3857'));
+      var feature10 = new ol.Feature({
+        geometry: point10
+      });
+      feature10.setId('Nash Point Lighthouse. Marcross, Llantwit Major, CF61 1ZH.');
+      feature10.setStyle(squareStyle);
+
+      var myVectorSource = new ol.source.Vector({
+          features: [feature, feature2, feature3, feature4, feature5, feature6, feature7, feature8, feature9, feature10]
+      });
+
+      var myVectorLayer = new ol.layer.Vector({
+          source: myVectorSource
+      });
+
+      var map = new ol.Map({
+        layers: [raster, wales, vector, myVectorLayer],
+        target: document.getElementById('map'),
+        view: new ol.View({
+          center: [-400000, 6850000],
+          projection: projection,
+          zoom: 7.5
+        })
+      });
+
+      map.on('click', function(evt) {
+        map.forEachFeatureAtPixel(evt.pixel, function(feature, layer){
+            alert(feature.getId());
+        })
+      })
+
+</script>

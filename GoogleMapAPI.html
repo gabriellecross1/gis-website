@@ -1,0 +1,303 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>GIS Assignment One</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+      body,h1 {
+        font-family: "Raleway", Arial, sans-serif;
+        height: 100%;
+      }
+      h1 {
+        letter-spacing: 6px;
+      }
+      .w3-row-padding img {
+        margin-bottom: 12px;
+      }
+      #map {
+        height: 540px;
+        width: 680px;
+        position: relative;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="w3-panel w3-center" style="padding:50px 16px">
+
+	<div class="w3-padding-32">
+      	  <div class="w3-bar w3-border">
+         	 <a href="index.html" class="w3-bar-item w3-button w3-light-grey">Milestone 1</a>
+          	<a href="milestoneTwoIndex.html" class="w3-bar-item w3-button">Milestone 2</a>
+          	<a href="M3LeafletMap1.html" class="w3-bar-item w3-button">Milestone 3</a>
+        </div>
+      </div>
+
+      <h1 class="w3-xlarge">MAPPING APIs</h1>
+      <h1>America's Most Famous Landmarks</h1>
+
+      <div class="w3-padding-32">
+        <div class="w3-bar w3-border">
+          <a href="index.html" class="w3-bar-item w3-button">Home</a>
+          <a href="GoogleMapAPI.html" class="w3-bar-item w3-button w3-light-grey">America's Famous Landmarks</a>
+          <a href="BingGeojsonMap.html" class="w3-bar-item w3-button">America's Crime Rate</a>
+          <a href="GoogleKMLMap.html" class="w3-bar-item w3-button w3-hide-small">America's Route 66</a>
+          <a href="references.html" class="w3-bar-item w3-button w3-hide-small">References</a>
+        </div>
+      </div>
+      <center>
+        <div id="map"></div>
+
+        <p>Using the Google Map API I have embedded a map that displays three of America’s most famous landmarks.
+          I have chosen to feature the Statue Of Liberty, Mount Rushmore National Memorial and Alcatraz Island.
+          Each landmark is displayed with a customised American flag marker that I used to replace the original Google marker with by using a simple image. </p>
+
+        <p>I have implemented a simple click event into this map which allows the user to click on the marker for a
+          closer look at the chosen landmark. For more information I have included an info window function which is activated
+          upon a second click from the user and this displays a small paragraph about the landmark. These have been created by
+          using listeners within a javascript function which waits for the user to interact with the marker.</p>
+
+        <p>I have also customised the map by adding a styled map option which allows the user to change the style
+          of the map if they choose to. This can be useful for many reasons including certain things on the map can
+          be seen more clearly. All of these features have been implemented using a variation of html and javascript functions. </p>
+      </center>
+    </header>
+
+    <!-- Footer -->
+    <footer class="w3-container w3-padding-64 w3-light-grey w3-center w3-large">
+      <img src="images/americanFlag.png" alt="HTML5">
+      <p>Created by Gabrielle Cross</p>
+    </footer>
+
+    <script>
+        // set map
+        var map;
+
+        // set landmark object and prototype function
+        function Landmark(title, latitude, longitude, content) {
+            this.title = title;
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.content = content;
+        };
+        Landmark.prototype.init = function() {
+            var requiredZoom = 13;
+            var infoWindow = new google.maps.InfoWindow({
+                content: this.content
+            });
+            var marker = new google.maps.Marker({
+                position: { lat: this.latitude, lng: this.longitude },
+                map: map,
+                icon: "images/USAFlag.png",
+                title: this.title
+            });
+            marker.addListener('click', function() {
+                if (map.zoom === requiredZoom && map.center === this.getPosition()) {
+                    infoWindow.open(map, this);
+                } else {
+                    map.setZoom(requiredZoom);
+                    map.setCenter(this.getPosition());
+                }
+            });
+        };
+
+        function initMap() {
+
+              // create the map
+              createMap();
+
+              // create the landmarks
+              createLandmarks();
+        }
+
+        function createMap() {
+
+          // Create a new StyledMapType object, passing it an array of styles,
+          // and the name to be displayed on the map type control.
+          var styledMapType = new google.maps.StyledMapType(
+              [
+                  {elementType: 'geometry', stylers: [{color: '#ebe3cd'}]},
+                  {elementType: 'labels.text.fill', stylers: [{color: '#523735'}]},
+                  {elementType: 'labels.text.stroke', stylers: [{color: '#f5f1e6'}]},
+                  {
+                      featureType: 'administrative',
+                      elementType: 'geometry.stroke',
+                      stylers: [{color: '#c9b2a6'}]
+                  },
+                  {
+                      featureType: 'administrative.land_parcel',
+                      elementType: 'geometry.stroke',
+                      stylers: [{color: '#dcd2be'}]
+                  },
+                  {
+                      featureType: 'administrative.land_parcel',
+                      elementType: 'labels.text.fill',
+                      stylers: [{color: '#ae9e90'}]
+                  },
+                  {
+                      featureType: 'landscape.natural',
+                      elementType: 'geometry',
+                      stylers: [{color: '#dfd2ae'}]
+                  },
+                  {
+                      featureType: 'poi',
+                      elementType: 'geometry',
+                      stylers: [{color: '#dfd2ae'}]
+                  },
+                  {
+                      featureType: 'poi',
+                      elementType: 'labels.text.fill',
+                      stylers: [{color: '#93817c'}]
+                  },
+                  {
+                      featureType: 'poi.park',
+                      elementType: 'geometry.fill',
+                      stylers: [{color: '#a5b076'}]
+                  },
+                  {
+                      featureType: 'poi.park',
+                      elementType: 'labels.text.fill',
+                      stylers: [{color: '#447530'}]
+                  },
+                  {
+                      featureType: 'road',
+                      elementType: 'geometry',
+                      stylers: [{color: '#f5f1e6'}]
+                  },
+                  {
+                      featureType: 'road.arterial',
+                      elementType: 'geometry',
+                      stylers: [{color: '#fdfcf8'}]
+                  },
+                  {
+                      featureType: 'road.highway',
+                      elementType: 'geometry',
+                      stylers: [{color: '#f8c967'}]
+                  },
+                  {
+                      featureType: 'road.highway',
+                      elementType: 'geometry.stroke',
+                      stylers: [{color: '#e9bc62'}]
+                  },
+                  {
+                      featureType: 'road.highway.controlled_access',
+                      elementType: 'geometry',
+                      stylers: [{color: '#e98d58'}]
+                  },
+                  {
+                      featureType: 'road.highway.controlled_access',
+                      elementType: 'geometry.stroke',
+                      stylers: [{color: '#db8555'}]
+                  },
+                  {
+                      featureType: 'road.local',
+                      elementType: 'labels.text.fill',
+                      stylers: [{color: '#806b63'}]
+                  },
+                  {
+                      featureType: 'transit.line',
+                      elementType: 'geometry',
+                      stylers: [{color: '#dfd2ae'}]
+                  },
+                  {
+                      featureType: 'transit.line',
+                      elementType: 'labels.text.fill',
+                      stylers: [{color: '#8f7d77'}]
+                  },
+                  {
+                      featureType: 'transit.line',
+                      elementType: 'labels.text.stroke',
+                      stylers: [{color: '#ebe3cd'}]
+                  },
+                  {
+                      featureType: 'transit.station',
+                      elementType: 'geometry',
+                      stylers: [{color: '#dfd2ae'}]
+                  },
+                  {
+                      featureType: 'water',
+                      elementType: 'geometry.fill',
+                      stylers: [{color: '#b9d3c2'}]
+                  },
+                  {
+                      featureType: 'water',
+                      elementType: 'labels.text.fill',
+                      stylers: [{color: '#92998d'}]
+                  }
+              ],
+              {name: 'Styled Map'});
+
+          // create map centered at America
+          map = new google.maps.Map(document.getElementById('map'), {
+              center: {lat: 37.850033, lng: -100.6500523},
+              zoom: 4,
+              mapTypeControlOptions: {
+              mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain',
+                      'styled_map']
+              }
+          });
+
+          //Associate the styled map with the MapTypeId and set it to display.
+          map.mapTypes.set('styled_map', styledMapType);
+      }
+
+      function createLandmarks() {
+
+          // create each landmark
+          var statueOfLiberty = new Landmark("Statue of Liberty",
+              40.689247,
+              -74.044502,
+              '<div id="content">'+
+              '<div id="siteNotice">'+
+              '</div>'+
+              '<h3 id="firstHeading" class="firstHeading">Statue Of Liberty</h3>'+
+              '<div id="bodyContent">'+
+              '<p><b>The Statue Of Liberty</b>, is a colossal neoclassical sculpture on Liberty Island in New York Harbor ' +
+              'in New York City, in the United States. The copper statue, a gift from the people of France to the people of the United States, ' +
+              'The statue was dedicated on October 28, 1886.</p>' +
+              '</div>'+
+              '</div>'
+            );
+            var mountRushmore = new Landmark("Mount Rushmore",
+              43.8789472,
+              -103.459825,
+              '<div id="content">'+
+              '<div id="siteNotice">'+
+              '</div>'+
+              '<h3 id="firstHeading" class="firstHeading">Mount Rushmore National Memorial</h3>'+
+              '<div id="bodyContent">'+
+              '<p><b>Mount Rushmore</b> is centered around a sculpture carved into the granite face of Mount Rushmore' +
+              'in the Black Hills in South Dakota. It features the 60-foot heads of Presidents George Washington, ' +
+              'Thomas Jefferson, Theodore Roosevelt, and Abraham Lincoln.</p>' +
+              '</div>'+
+              '</div>'
+            );
+            var alcatraz = new Landmark("Alcatraz",
+              37.828125,
+              -122.422844,
+              '<div id="content">'+
+              '<div id="siteNotice">'+
+              '</div>'+
+              '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
+              '<div id="bodyContent">'+
+              '<p><b>Alcatraz</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
+              'sandstone rock formation in the southern part of the '+
+              'Heritage Site.</p>'+
+              '</div>'+
+              '</div>'
+            );
+
+            // initialise all landmarks
+            statueOfLiberty.init();
+            mountRushmore.init();
+            alcatraz.init();
+          }
+      </script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5vzkTRZKuQQtTMmda7Nc1a1KftlcZWqk&callback=initMap"
+      async defer></script>
+  </body>
+</html>

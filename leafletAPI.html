@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GIS Assignment One</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"/>
+
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+    <style>
+      body,h1 {
+        font-family: "Raleway", Arial, sans-serif;
+        height: 100%;
+      }
+      h1 {
+        letter-spacing: 6px;
+      }
+      .w3-row-padding img {
+        margin-bottom: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="w3-panel w3-center" style="padding:50px 16px">
+
+	<div class="w3-padding-32">
+      	  <div class="w3-bar w3-border">
+         	<a href="index.html" class="w3-bar-item w3-button">Milestone 1</a>
+          	<a href="milestoneTwoIndex.html" class="w3-bar-item w3-button w3-light-grey">Milestone 2</a>
+          	<a href="M3LeafletMap1.html" class="w3-bar-item w3-button">Milestone 3</a>
+        </div>
+      </div>
+
+      <h1 class="w3-xlarge">MAPPING APIs</h1>
+      <h1>Wales' Most Famous Landmarks</h1>
+
+      <div class="w3-padding-32">
+        <div class="w3-bar w3-border">
+          <a href="milestoneTwoIndex.html" class="w3-bar-item w3-button">Home</a>
+          <a href="leafletAPI.html" class="w3-bar-item w3-button w3-light-grey">Wales' Famous Landmarks</a>
+          <a href="lighthouseOpenLayers.html" class="w3-bar-item w3-button w3-hide-small">Lighthouse Trail In Wales</a>
+          <a href="milestoneTwoReferences.html" class="w3-bar-item w3-button w3-hide-small">References</a>
+        </div>
+      </div>
+      <center>
+	       <div id="map" <div style="background-color:lightblue;width:680px;height:540px;"></div>
+
+      <p>Using the Leaflet API I have displayed a map that shows three of Wales' most famous landmarks. Featuring
+          the Principality Stadium, Snowdonia National Park and Pembroke Castle. Each landmark is shown on the map with a custom Welsh dragon flag.
+          If the user clicks on one of these markers, a popup window is brought up displaying the name of the chose landmark.</p>
+
+      <p>Using Thunderforest web map services I have implemented third party tile servers, including a cycle map, a transport map and a dark mode transport map.
+      Each of these raster layers is available for the user to select via an interactive menu in the top right hand corner.    </p>
+	</center>
+    </header>
+
+    <!-- Footer -->
+    <footer class="w3-container w3-padding-64 w3-light-grey w3-center w3-large">
+      <img src="images/welshFlag.png" alt="HTML5">
+      <p>Created by Gabrielle Cross</p>
+    </footer>
+  </body>
+</html>
+
+<script>
+  var welshIcon = L.icon({
+    iconUrl: 'images/welshIcon.png',
+    iconSize: [40, 40],
+  });
+    // create a new tile layer
+    var cycleLink = '<a href="http://thunderforest.com/">Thunderforest</a>';
+    var transLink = '<a href="http://thunderforest.com/">Thunderforest</a>';
+    var darkTransLink = '<a href="http://thunderforest.com/">Thunderforest</a>';
+
+    var cycleUrl = 'https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=81657e9a22854211a263b1180a7adc95',
+        cycleAttrib = '&copy; ' + cycleLink + ' Contributors',
+
+        transUrl = 'https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=81657e9a22854211a263b1180a7adc95',
+        transAttrib = '&copy; ' + transLink + ' Contributors',
+
+        darkTransUrl = 'https://tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey=81657e9a22854211a263b1180a7adc95',
+        darkTransAttrib = '&copy; ' + darkTransLink + ' Contributors';
+
+    var cycleMap = L.tileLayer(cycleUrl, {attribution: cycleAttrib}),
+        transMap = L.tileLayer(transUrl, {attribution: transAttrib}),
+        darkTransMap = L.tileLayer(darkTransUrl, {attribution: darkTransAttrib});
+
+        var map = L.map('map', {
+    			    layers: [cycleMap] // only add one!
+    		    })
+    		    .setView([51.9, -3.45], 7);
+
+    var baseLayers = {
+      "Cycle Map": cycleMap,
+      "Transport": transMap,
+      "Dark Transport": darkTransMap
+    };
+
+    // add the layer to the map
+    L.control.layers(baseLayers).addTo(map);
+
+    //coordinates for snowdonia national park
+		L.marker([52.9180115,-3.8934087], {icon: welshIcon}).addTo(map).bindPopup("Snowdonia National Park");
+    //coordinates of principality stadium
+		L.marker([51.4784548, -3.1826344], {icon: welshIcon}).addTo(map).bindPopup("Principality Stadium");
+    //coordinates of pembroke castle
+    L.marker([51.6769031, -4.9227225], {icon: welshIcon}).addTo(map).bindPopup("Pembroke Castle");
+</script>
